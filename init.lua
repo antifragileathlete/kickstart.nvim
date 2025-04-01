@@ -280,7 +280,7 @@ require('lazy').setup({
       require('lualine').setup {
         options = {
           theme = 'horizon', -- or 'gruvbox', 'tokyonight', etc.
-          section_separators = '',
+          section_separators = { left = '', right = '' },
           component_separators = '',
         },
       }
