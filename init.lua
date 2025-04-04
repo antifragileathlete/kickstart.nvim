@@ -131,6 +131,8 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
+vim.opt.cmdheight = 1
+
 -- Decrease update time
 vim.opt.updatetime = 250
 
@@ -327,6 +329,7 @@ require('lazy').setup({
           theme = 'horizon', -- or 'gruvbox', 'tokyonight', etc.
           section_separators = { left = '', right = '' },
           component_separators = '',
+          globalstatus = false,
         },
       }
     end,
@@ -356,62 +359,62 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
-  },
+  --{ -- Useful plugin to show you pending keybinds.
+  --'folke/which-key.nvim',
+  --event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  --opts = {
+  ---- delay between pressing a key and opening which-key (milliseconds)
+  ---- this setting is independent of vim.opt.timeoutlen
+  --delay = 0,
+  --icons = {
+  ---- set icon mappings to true if you have a Nerd Font
+  --mappings = vim.g.have_nerd_font,
+  ---- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+  ---- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+  --keys = vim.g.have_nerd_font and {} or {
+  --Up = '<Up> ',
+  --Down = '<Down> ',
+  --Left = '<Left> ',
+  --Right = '<Right> ',
+  --C = '<C-…> ',
+  --M = '<M-…> ',
+  --D = '<D-…> ',
+  --S = '<S-…> ',
+  --CR = '<CR> ',
+  --Esc = '<Esc> ',
+  --ScrollWheelDown = '<ScrollWheelDown> ',
+  --ScrollWheelUp = '<ScrollWheelUp> ',
+  --NL = '<NL> ',
+  --BS = '<BS> ',
+  --Space = '<Space> ',
+  --Tab = '<Tab> ',
+  --F1 = '<F1>',
+  --F2 = '<F2>',
+  --F3 = '<F3>',
+  --F4 = '<F4>',
+  --F5 = '<F5>',
+  --F6 = '<F6>',
+  --F7 = '<F7>',
+  --F8 = '<F8>',
+  --F9 = '<F9>',
+  --F10 = '<F10>',
+  --F11 = '<F11>',
+  --F12 = '<F12>',
+  --},
+  --},
+  --
+  ---- Document existing key chains
+  --spec = {
+  --{ '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+  --{ '<leader>d', group = '[D]ocument' },
+  --{ '<leader>r', group = '[R]ename' },
+  --{ '<leader>s', group = '[S]earch' },
+  --{ '<leader>w', group = '[W]orkspace' },
+  --{ '<leader>t', group = '[T]oggle' },
+  --{ '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+  --},
+  --},
+  --},
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -1095,7 +1098,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
