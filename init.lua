@@ -527,7 +527,10 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
-
+  -- lua/custom/plugins/null-ls.lua
+  {
+    'nvimtools/none-ls.nvim',
+  },
   -- Oil setup
   {
     'stevearc/oil.nvim',
@@ -854,6 +857,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
+        xml = { 'xmlformatter' },
         python = { 'ruff_format' },
         formatters = {
           ruff_format = {
@@ -1131,11 +1135,27 @@ vim.opt.termguicolors = true
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     vim.cmd 'highlight Normal guifg=#ffffff guibg=NONE'
+    vim.opt.number = false
+    vim.opt.relativenumber = false
   end,
 })
 -- Open init.lua configuration file using <leader>ev
 vim.api.nvim_set_keymap('n', '<leader>ev', ':e $MYVIMRC<CR>', { noremap = true, silent = true })
 vim.wo.relativenumber = true
+
+local job_id = 0
+vim.keymap.set('n', '<space>st', function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd.wincmd 'J'
+  vim.api.nvim_win_set_height(0, 5)
+
+  job_id = vim.bo.channel
+end)
+
+vim.keymap.set('n', '<space>ors', function()
+  vim.fn.chansend(job_id, { 'ors \r\n' })
+end)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
