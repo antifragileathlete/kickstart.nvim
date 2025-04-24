@@ -137,7 +137,7 @@ vim.opt.cmdheight = 1
 vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 750
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -1130,7 +1130,7 @@ require('lazy').setup({
   },
 })
 vim.api.nvim_set_keymap('n', ':E<CR>', ':Oil<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'NONE' })
 vim.opt.termguicolors = true
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
