@@ -48,5 +48,19 @@ local toggle_terminal = function()
   end
 end
 
+local function close_terminal()
+  if vim.api.nvim_win_is_valid(state.floating.win) then
+    vim.api.nvim_win_close(state.floating.win, true)
+  end
+
+  if vim.api.nvim_buf_is_valid(state.floating.buf) then
+    vim.api.nvim_buf_delete(state.floating.buf, { force = true })
+  end
+
+  state.floating.win = -1
+  state.floating.buf = -1
+end
+
 vim.api.nvim_create_user_command('Floaterminal', toggle_terminal, {})
 vim.keymap.set({ 'n', 't' }, '<space>tt', toggle_terminal)
+vim.keymap.set({ 'n', 't' }, '<space>tc', close_terminal, {})
