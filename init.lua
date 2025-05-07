@@ -326,7 +326,7 @@ require('lazy').setup({
     config = function()
       require('lualine').setup {
         options = {
-          theme = 'gruvbox', -- or 'gruvbox', 'tokyonight', etc.
+          theme = 'dracula', -- or 'gruvbox', 'tokyonight', etc.
           section_separators = { left = '', right = '' },
           component_separators = '',
           globalstatus = false,
