@@ -333,7 +333,7 @@ require('lazy').setup({
         },
         sections = {
           lualine_a = { 'mode' },
-          lualine_b = {
+          lualine_c = {
             {
               'buffers',
               show_filename_only = true,
@@ -361,7 +361,7 @@ require('lazy').setup({
             },
           },
           -- Optional: define other sections (b, c, x, y, z) or leave them empty
-          lualine_c = { 'branch', 'diff' },
+          lualine_b = { 'branch', 'diff' },
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
