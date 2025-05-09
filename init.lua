@@ -335,6 +335,9 @@ require('lazy').setup({
         end
       end
 
+      vim.api.nvim_set_hl(0, 'LualineBufferActive', { fg = '#191724', bg = '#f6c177', bold = true }) -- iris bg, dark fg
+      vim.api.nvim_set_hl(0, 'LualineBufferInactive', { fg = '#908caa', bg = '#2a273f' }) -- muted for inactive
+
       custom_dracula.terminal = {
         a = { fg = '#282a36', bg = '#ffb86c', gui = 'bold' }, -- Orange bg
         b = { fg = '#f8f8f2', bg = '#44475a' },
@@ -366,8 +369,8 @@ require('lazy').setup({
               },
               use_mode_colors = false,
               buffers_color = {
-                active = 'lualine_a_visual', -- This must be a valid highlight group name
-                inactive = 'lualine_a_inactive', -- Same here
+                active = 'LualineBufferActive', -- This must be a valid highlight group name
+                inactive = 'LualineBufferInactive', -- Same here
               },
               symbols = {
                 modified = ' ●',
@@ -378,7 +381,7 @@ require('lazy').setup({
           },
           -- Optional: define other sections (b, c, x, y, z) or leave them empty
           lualine_c = { 'branch', 'diff' },
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_x = { 'filetype' },
           lualine_y = {
             {
               'progress',
