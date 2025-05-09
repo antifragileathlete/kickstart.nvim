@@ -1168,6 +1168,13 @@ end)
 vim.keymap.set('n', '<space>ors', function()
   vim.fn.chansend(job_id, { 'ors \r\n' })
 end)
+-- Go to next buffer with Tab
+vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+
+-- Go to previous buffer with Shift-Tab
+vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
+-- Delete current buffer with <Leader>d
+vim.keymap.set('n', '<Leader>d', ':bdelete<CR>', { noremap = true, silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
