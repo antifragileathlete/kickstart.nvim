@@ -324,9 +324,16 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
+      local custom_dracula = require 'lualine.themes.dracula'
+
+      custom_dracula.terminal = {
+        a = { fg = '#282a36', bg = '#ffb86c', gui = 'bold' }, -- Orange bg
+        b = { fg = '#f8f8f2', bg = '#44475a' },
+        c = { fg = '#f8f8f2', bg = '#282a36' },
+      }
       require('lualine').setup {
         options = {
-          theme = 'dracula',
+          theme = custom_dracula,
           section_separators = { left = '', right = '' },
           component_separators = '',
           globalstatus = false,
