@@ -326,6 +326,15 @@ require('lazy').setup({
     config = function()
       local custom_dracula = require 'lualine.themes.dracula'
 
+      -- Make all backgrounds transparent
+      for _, mode in pairs(custom_dracula) do
+        for section, props in pairs(mode) do
+          if section == 'c' or section == 'b' then
+            props.bg = 'none'
+          end
+        end
+      end
+
       custom_dracula.terminal = {
         a = { fg = '#282a36', bg = '#ffb86c', gui = 'bold' }, -- Orange bg
         b = { fg = '#f8f8f2', bg = '#44475a' },
@@ -340,7 +349,7 @@ require('lazy').setup({
         },
         sections = {
           lualine_a = { 'mode' },
-          lualine_c = {
+          lualine_b = {
             {
               'buffers',
               show_filename_only = true,
@@ -357,7 +366,7 @@ require('lazy').setup({
               },
               use_mode_colors = false,
               buffers_color = {
-                active = 'lualine_a_normal', -- This must be a valid highlight group name
+                active = 'lualine_a_visual', -- This must be a valid highlight group name
                 inactive = 'lualine_a_inactive', -- Same here
               },
               symbols = {
@@ -368,9 +377,16 @@ require('lazy').setup({
             },
           },
           -- Optional: define other sections (b, c, x, y, z) or leave them empty
-          lualine_b = { 'branch', 'diff' },
+          lualine_c = { 'branch', 'diff' },
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          lualine_y = { 'progress' },
+          lualine_y = {
+            {
+              'progress',
+              separator = { left = '' },
+              color = { bg = '#44475a', fg = '#282a36' }, -- Match Dracula theme
+              padding = { left = 1, right = 1 },
+            },
+          },
           lualine_z = { 'location' },
         },
       }
@@ -1026,11 +1042,14 @@ require('lazy').setup({
           sidebars = 'transparent',
           floats = 'transparent',
         },
+        ---@param colors ColorScheme
+        on_colors = function(colors)
+          colors.bg_statusline = colors.none
+        end,
       }
-
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      -- any other, such as '', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
