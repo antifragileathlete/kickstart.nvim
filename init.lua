@@ -1204,6 +1204,21 @@ vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
 -- Delete current buffer with <Leader>d
 vim.keymap.set('n', '<Leader>d', ':bdelete<CR>', { noremap = true, silent = true })
+if vim.fn.argc() == 0 then
+  local output = vim.fn.systemlist "find . -type f -iname '*_session.vim*'"
+  if vim.v.shell_error == 0 and #output > 0 then
+    local sessions = output
+    if #sessions == 1 then
+      vim.cmd('source ' .. vim.fn.fnameescape(sessions[1]))
+    else
+      vim.ui.select(sessions, { prompt = 'Select a session to load:' }, function(choice)
+        if choice then
+          vim.cmd('source ' .. vim.fn.fnameescape(choice))
+        end
+      end)
+    end
+  end
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
