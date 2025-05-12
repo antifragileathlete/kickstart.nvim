@@ -1189,7 +1189,7 @@ vim.keymap.set('n', '<space>st', function()
   vim.cmd.vnew()
   vim.cmd.term()
   vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 7)
+  vim.api.nvim_win_set_height(0, 8)
 
   job_id = vim.bo.channel
 end)
@@ -1204,6 +1204,7 @@ vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
 -- Delete current buffer with <Leader>d
 vim.keymap.set('n', '<Leader>d', ':bdelete<CR>', { noremap = true, silent = true })
+
 if vim.fn.argc() == 0 then
   local output = vim.fn.systemlist "find . -type f -iname '*_session.vim*'"
   if vim.v.shell_error == 0 and #output > 0 then
@@ -1218,6 +1219,12 @@ if vim.fn.argc() == 0 then
       end)
     end
   end
+end
+
+for i = 1, 9 do
+  vim.keymap.set('n', '<leader>' .. i, function()
+    vim.cmd('LualineBuffersJump! ' .. i)
+  end, { desc = 'Safely jump to buffer ' .. i })
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
