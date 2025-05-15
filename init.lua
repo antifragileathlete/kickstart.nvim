@@ -348,10 +348,19 @@ require('lazy').setup({
           theme = custom_dracula,
           section_separators = { left = '', right = '' },
           component_separators = '',
-          globalstatus = false,
+          globalstatus = true,
         },
         sections = {
-          lualine_a = { 'mode' },
+          lualine_a = {
+            {
+              'mode',
+              fmt = function(str)
+                -- Adding the Vim symbol () in front of the mode
+                return ' ' .. str
+              end,
+            },
+          },
+          -- lualine_a = { 'mode' },
           lualine_b = {
             {
               'buffers',
@@ -359,7 +368,7 @@ require('lazy').setup({
               hide_filename_extension = false,
               show_modified_status = true,
               mode = 0,
-              max_length = vim.o.columns * 2 / 3,
+              max_length = vim.o.columns * 3 / 4,
               filetype_names = {
                 TelescopePrompt = 'Telescope',
                 dashboard = 'Dashboard',
@@ -1226,6 +1235,9 @@ for i = 1, 9 do
     vim.cmd('LualineBuffersJump! ' .. i)
   end, { desc = 'Safely jump to buffer ' .. i })
 end
+
+-- Then override the separator color
+vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#f6c177', bg = 'NONE', bold = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
