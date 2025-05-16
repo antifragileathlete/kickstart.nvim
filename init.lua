@@ -1230,12 +1230,12 @@ if vim.fn.argc() == 0 then
   end
 end
 
-for i = 1, 9 do
+for i = 2, 9 do
+  local buffer_index = i - 1
   vim.keymap.set('n', '<leader>' .. i, function()
-    vim.cmd('LualineBuffersJump! ' .. i)
-  end, { desc = 'Safely jump to buffer ' .. i })
+    vim.cmd('LualineBuffersJump! ' .. buffer_index)
+  end, { desc = 'Safely jump to buffer ' .. buffer_index })
 end
-
 -- Then override the separator color
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#f6c177', bg = 'NONE', bold = true })
 
