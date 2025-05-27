@@ -1120,7 +1120,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'org' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
@@ -1130,6 +1130,49 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  {
+    'epwalsh/pomo.nvim',
+    version = '*', -- Recommended, use latest release instead of latest commit
+    lazy = true,
+    cmd = { 'TimerStart', 'TimerRepeat', 'TimerSession' },
+    dependencies = {
+      -- Optional, but highly recommended if you want to use the "Default" timer
+      'rcarriga/nvim-notify',
+    },
+    opts = {
+      -- See below for full list of options 👇
+    },
+  },
+  {
+    'nvim-orgmode/orgmode',
+    event = 'VeryLazy',
+    ft = { 'org' },
+    config = function()
+      require('orgmode').setup {
+        org_agenda_files = { '~/orgfiles/**/*' },
+        org_default_notes_file = '~/orgfiles/refile.org',
+        org_refile_targets = {
+          ['~/orgfiles/todo.org'] = { max_level = 2 },
+        },
+        org_use_property_inheritance = true,
+        org_hide_leading_stars = true,
+        org_hide_emphasis_markers = true,
+        org_startup_folded = 'showeverything',
+        win_split_mode = 'vertical',
+        hyperlinks = {
+          org_confirm_open = true,
+          sources = {},
+        },
+      }
+    end,
+  },
+
+  {
+    'm4xshen/hardtime.nvim',
+    lazy = false,
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    opts = {},
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -1238,6 +1281,13 @@ for i = 2, 9 do
 end
 -- Then override the separator color
 vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#f6c177', bg = 'NONE', bold = true })
+require('telescope').load_extension 'pomodori'
 
+vim.keymap.set('n', '<leader>pt', function()
+  require('telescope').extensions.pomodori.timers()
+end, { desc = 'Manage Pomodori Timers' })
+vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#ff5555', bold = true })
+vim.api.nvim_set_hl(0, '@org.agenda.done', { fg = '#888888', italic = true })
+vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- Dracula green + bold
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
