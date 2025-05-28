@@ -1078,14 +1078,14 @@ require('lazy').setup({
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
+      -- require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1289,5 +1289,12 @@ end, { desc = 'Manage Pomodori Timers' })
 vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#ff5555', bold = true })
 vim.api.nvim_set_hl(0, '@org.agenda.done', { fg = '#888888', italic = true })
 vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- Dracula green + bold
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'org',
+  callback = function()
+    vim.keymap.set('n', '<Tab>', ':bnext<CR>', { buffer = true, noremap = true, silent = true })
+    vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { buffer = true, noremap = true, silent = true })
+  end,
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
