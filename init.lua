@@ -1144,30 +1144,31 @@ require('lazy').setup({
       -- See below for full list of options 👇
     },
   },
+
   {
-    'nvim-orgmode/orgmode',
-    event = 'VeryLazy',
-    ft = { 'org' },
+    'nvim-neorg/neorg',
+    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+    version = '*', -- Pin Neorg to the latest stable release
     config = function()
-      require('orgmode').setup {
-        org_agenda_files = { '~/orgfiles/**/*' },
-        org_default_notes_file = '~/orgfiles/refile.org',
-        org_refile_targets = {
-          ['~/orgfiles/todo.org'] = { max_level = 2 },
-        },
-        org_use_property_inheritance = true,
-        org_hide_leading_stars = true,
-        org_hide_emphasis_markers = true,
-        org_startup_folded = 'showeverything',
-        win_split_mode = 'vertical',
-        hyperlinks = {
-          org_confirm_open = true,
-          sources = {},
+      require('neorg').setup {
+        load = {
+          ['core.defaults'] = {},
+          ['core.concealer'] = {},
+          ['core.dirman'] = {
+            config = {
+              workspaces = {
+                notes = '~/neorg/notes',
+              },
+              default_workspace = 'notes',
+            },
+          },
         },
       }
+
+      vim.wo.foldlevel = 99
+      vim.wo.conceallevel = 2
     end,
   },
-
   {
     'm4xshen/hardtime.nvim',
     lazy = false,
@@ -1296,5 +1297,6 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { buffer = true, noremap = true, silent = true })
   end,
 })
+vim.keymap.set('n', '<leader><CR>', '<Plug>(neorg.esupports.hop.hop-link)', { silent = true, desc = 'Neorg Hop Link' })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
