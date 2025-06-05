@@ -1286,7 +1286,7 @@ require('telescope').load_extension 'pomodori'
 vim.keymap.set('n', '<leader>pt', function()
   require('telescope').extensions.pomodori.timers()
 end, { desc = 'Manage Pomodori Timers' })
-vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#ff5555', bold = true })
+vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#f8f8f2', bold = true })
 vim.api.nvim_set_hl(0, '@org.agenda.done', { fg = '#888888', italic = true })
 vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- Dracula green + bold
 vim.api.nvim_create_autocmd('FileType', {
