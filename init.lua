@@ -826,7 +826,7 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        ruff = {},
+        -- ruff = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -1290,13 +1290,8 @@ end, { desc = 'Manage Pomodori Timers' })
 vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#f8f8f2', bold = true })
 vim.api.nvim_set_hl(0, '@org.agenda.done', { fg = '#888888', italic = true })
 vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- Dracula green + bold
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'org',
-  callback = function()
-    vim.keymap.set('n', '<Tab>', ':bnext<CR>', { buffer = true, noremap = true, silent = true })
-    vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { buffer = true, noremap = true, silent = true })
-  end,
-})
-vim.keymap.set('n', '<leader><CR>', '<Plug>(neorg.esupports.hop.hop-link)', { silent = true, desc = 'Neorg Hop Link' })
+vim.keymap.set('n', '<PageDown>', ':bnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<S-PageUp>', ':bprevious<CR>', { noremap = true, silent = true })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
