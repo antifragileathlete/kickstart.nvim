@@ -1112,6 +1112,8 @@ require('lazy').setup({
 
       vim.wo.foldlevel = 99
       vim.wo.conceallevel = 2
+      -- Set custom keybind for hop-link
+      vim.keymap.set('n', '<leader><CR>', '<Plug>(neorg.esupports.hop.hop-link)', { silent = true, desc = 'Neorg Hop Link' })
     end,
   },
   {
