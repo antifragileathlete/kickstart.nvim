@@ -1102,9 +1102,12 @@ require('lazy').setup({
           ['core.dirman'] = {
             config = {
               workspaces = {
-                notes = '~/neorg/notes',
+                main = '~/neorg/main',
+                odoo = '~/neorg/odoo',
+                br = '~/neorg/br',
+                personal = '~/neorg/personal/',
               },
-              default_workspace = 'notes',
+              default_workspace = 'main',
             },
           },
         },
@@ -1136,7 +1139,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -1238,7 +1241,13 @@ vim.api.nvim_set_hl(0, '@org.agenda.scheduled', { fg = '#f8f8f2', bold = true })
 vim.api.nvim_set_hl(0, '@org.agenda.done', { fg = '#888888', italic = true })
 vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- Dracula green + bold
 vim.keymap.set('n', '<PageDown>', ':bnext<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<S-PageUp>', ':bprevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<S-PageDown>', ':bprevious<CR>', { noremap = true, silent = true })
+-- In your init.lua or a keymap file
+vim.keymap.set('n', '<leader>gi', ':e /home/adrian/neorg/main/inbox.norg<CR>', { desc = 'Go to Neorg Inbox' })
+vim.keymap.set('i', '<C-j>', '<Plug>(neorg.itero.next-iteration)', {
+  noremap = true,
+  silent = true,
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
