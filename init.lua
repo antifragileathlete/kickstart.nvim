@@ -1057,7 +1057,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'norg' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1065,7 +1065,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby', 'org' },
+        additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
@@ -1103,13 +1103,15 @@ require('lazy').setup({
               icon_preset = 'diamond', -- Switches bullet points to diamond style
             },
           },
+          ['core.export'] = {},
+          ['core.summary'] = {},
           ['core.dirman'] = {
             config = {
               workspaces = {
                 main = '~/neorg/main',
-                odoo = '~/neorg/odoo',
+                odoo = '~/neorg/it',
                 br = '~/neorg/br',
-                personal = '~/neorg/personal/',
+                personal = '~/neorg/misc',
               },
               default_workspace = 'main',
             },
@@ -1252,6 +1254,6 @@ vim.keymap.set('i', '<C-j>', '<Plug>(neorg.itero.next-iteration)', {
   noremap = true,
   silent = true,
 })
-
+vim.api.nvim_set_hl(0, 'Visual', { fg = 'NONE', bg = '#4a5a7a', bold = true })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
