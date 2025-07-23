@@ -913,7 +913,13 @@ require('lazy').setup({
           --   end,
           -- },
         },
-        opts = {},
+        opts = {
+          history = true,
+          updateevents = 'TextChanged,TextChangedI',
+        },
+        config = function()
+          require('luasnip.loaders.from_lua').load { paths = { '~/.config/nvim/lua/snippets' } }
+        end,
       },
       'folke/lazydev.nvim',
     },
