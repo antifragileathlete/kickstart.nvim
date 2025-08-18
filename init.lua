@@ -399,10 +399,10 @@ require('lazy').setup({
             {
               'buffers',
               show_filename_only = true,
-              hide_filename_extension = false,
+              hide_filename_extension = true,
               show_modified_status = true,
               mode = 0,
-              max_length = vim.o.columns * 3 / 4,
+              max_length = vim.o.columns * 9 / 10,
               filetype_names = {
                 TelescopePrompt = 'Telescope',
                 dashboard = 'Dashboard',
@@ -1132,6 +1132,7 @@ require('lazy').setup({
             },
           },
           ['core.export'] = {},
+          ['core.promo'] = {},
           ['core.summary'] = {},
           ['core.dirman'] = {
             config = {
