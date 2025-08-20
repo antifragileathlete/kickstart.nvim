@@ -1278,7 +1278,9 @@ vim.api.nvim_set_hl(0, '@org.keyword.done', { fg = '#50fa7b', bold = true }) -- 
 vim.keymap.set('n', '<PageDown>', ':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<S-PageDown>', ':bprevious<CR>', { noremap = true, silent = true })
 -- In your init.lua or a keymap file
-vim.keymap.set('n', '<leader>gi', ':e /home/adrian/neorg/main/inbox.norg<CR>', { desc = 'Go to Neorg Inbox' })
+vim.keymap.set('n', '<leader>gi', ':e /home/adrian/neorg/main/idx.norg<CR>', { desc = 'Go to Neorg Index' })
+vim.keymap.set('n', '<leader>oa', ':e /home/adrian/neorg/it/oactions.norg<CR>', { desc = 'Go to Odoo Next Actions' })
+vim.keymap.set('n', '<leader>ba', ':e /home/adrian/neorg/br/bactions.norg<CR>', { desc = 'Go to BR Next Actions' })
 vim.keymap.set('i', '<C-j>', '<Plug>(neorg.itero.next-iteration)', {
   noremap = true,
   silent = true,
