@@ -6,7 +6,9 @@ local t = ls.text_node -- You definitely need t for text!
 
 return {
   s('weekly', {
-    t { '* Weekly Scrum' },
+    t {
+      '* Weekly Scrum {https://app-eu.wrike.com/workspace.htm?acc=1891048#folder/1477588191/tableV2?spaceId=836707652&viewId=304740746&sidePanelItemId=1477588191}[link]',
+    },
     t { '', '** Woran habt ihr letzte Woche gearbeitet?' },
     t { '', '*** Adrian' },
     t { '', '*** Matheusz' },
