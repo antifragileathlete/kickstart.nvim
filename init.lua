@@ -248,7 +248,7 @@ require('lazy').setup({
     config = function()
       local custom_dracula = require 'lualine.themes.dracula'
 
-      -- Make all backgrounds transparent
+      -- Make all backgrounds transparent for sections b and c
       for _, mode in pairs(custom_dracula) do
         for section, props in pairs(mode) do
           if section == 'c' or section == 'b' then
@@ -265,6 +265,16 @@ require('lazy').setup({
         b = { fg = '#f8f8f2', bg = '#44475a' },
         c = { fg = '#f8f8f2', bg = '#282a36' },
       }
+
+      -- Custom component for macro recording
+      local macro_recording = function()
+        local reg = vim.fn.reg_recording()
+        if reg ~= '' then
+          return 'Recording @' .. reg
+        end
+        return ''
+      end
+
       require('lualine').setup {
         options = {
           theme = custom_dracula,
@@ -277,12 +287,10 @@ require('lazy').setup({
             {
               'mode',
               fmt = function(str)
-                -- Adding the Vim symbol () in front of the mode
                 return ' ' .. str
               end,
             },
           },
-          -- lualine_a = { 'mode' },
           lualine_b = {
             {
               'buffers',
@@ -300,8 +308,8 @@ require('lazy').setup({
               },
               use_mode_colors = false,
               buffers_color = {
-                active = 'LualineBufferActive', -- This must be a valid highlight group name
-                inactive = 'LualineBufferInactive', -- Same here
+                active = 'LualineBufferActive',
+                inactive = 'LualineBufferInactive',
               },
               symbols = {
                 modified = ' ●',
@@ -310,14 +318,17 @@ require('lazy').setup({
               },
             },
           },
-          -- Optional: define other sections (b, c, x, y, z) or leave them empty
           lualine_c = { 'branch', 'diff' },
-          lualine_x = { 'filetype' },
+          -- Add macro indicator to lualine_x
+          lualine_x = {
+            'filetype',
+            { macro_recording, color = { fg = '#ff5555', gui = 'bold' } },
+          },
           lualine_y = {
             {
               'progress',
               separator = { left = '' },
-              color = { bg = '#44475a', fg = '#282a36' }, -- Match Dracula theme
+              color = { bg = '#44475a', fg = '#282a36' },
               padding = { left = 1, right = 1 },
             },
           },
@@ -326,7 +337,6 @@ require('lazy').setup({
       }
     end,
   },
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -713,22 +723,26 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        xml = { 'xmlformatter' },
-        python = { 'ruff_format' },
-        formatters = {
-          ruff_format = {
-            comamand = 'ruff',
-            args = { 'format', '-' },
-            stdin = true,
-          },
-        },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        lua = { "stylua" },
+        xml = { "xmlformatter" },
+        python = { "ruff_fix", "ruff_format" },
       },
+
+      formatters = {
+        ruff_fix = {
+          command = "ruff",
+          args = { "check", "--fix", "-" },
+          stdin = true,
+        },
+        ruff_format = {
+          command = "ruff",
+          args = { "format", "-" },
+          stdin = true,
+        },
+      },
+      --
+      -- You can use 'stop_after_first' to run the first available formatter from the list
+      -- javascript = { "prettierd", "prettier", stop_after_first = true },
     },
   },
 
