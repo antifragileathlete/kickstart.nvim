@@ -652,7 +652,8 @@ require('lazy').setup({
 
       local servers = {
         -- clangd = {},
-
+        pyright = {},
+        lemminx = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -723,20 +724,20 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
-        lua = { "stylua" },
-        xml = { "xmlformatter" },
-        python = { "ruff_fix", "ruff_format" },
+        lua = { 'stylua' },
+        xml = { 'xmlformatter' },
+        python = { 'ruff_fix', 'ruff_format' },
       },
 
       formatters = {
         ruff_fix = {
-          command = "ruff",
-          args = { "check", "--fix", "-" },
+          command = 'ruff',
+          args = { 'check', '--fix', '-' },
           stdin = true,
         },
         ruff_format = {
-          command = "ruff",
-          args = { "format", "-" },
+          command = 'ruff',
+          args = { 'format', '-' },
           stdin = true,
         },
       },
@@ -919,30 +920,98 @@ require('lazy').setup({
   --     --  Check out: https://github.com/echasnovski/mini.nvim
   --   end,
   -- },
-  { -- Highlight, edit, and navigate code
+  --
+  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'norg' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'norg',
+        'python',
+        'xml',
       },
-      indent = { enable = true, disable = { 'ruby' } },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    config = function(_, opts)
+      require('nvim-treesitter').setup(opts)
+
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+    end,
+  },
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'rcarriga/nvim-dap-ui',
+      'nvim-neotest/nvim-nio',
+      'mfussenegger/nvim-dap-python',
+    },
+    config = function()
+      local dap = require 'dap'
+      local dapui = require 'dapui'
+
+      -- Setup the UI
+      dapui.setup()
+
+      -- Automatically open/close the DAP UI when debugging starts/stops
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+
+      -- Basic Debug Keymaps
+      vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+      vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Debug: Step Over' })
+      vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Debug: Step Into' })
+      vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Debug: Step Out' })
+      vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+      vim.keymap.set('n', '<leader>B', function()
+        dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+      end, { desc = 'Debug: Set Conditional Breakpoint' })
+
+      -- Tell the Python adapter where your venv's Python is
+      require('dap-python').setup(vim.fn.expand '~/odoo-venv/bin/python')
+
+      -- 🚀 THE ODOO MAGIC: Custom Launch Configuration
+      table.insert(dap.configurations.python, {
+        type = 'python',
+        request = 'launch',
+        name = 'Launch Local Odoo',
+        program = vim.fn.expand '~/odoo/odoo-bin',
+        args = {
+          '-c',
+          vim.fn.expand '~/odoo/odoo.conf',
+          '-d',
+          'my_dev_db',
+          '-u',
+          'vlabel,invoicing',
+          '--dev=all',
+        },
+        pythonPath = function()
+          return vim.fn.expand '~/odoo-venv/bin/python'
+        end,
+        cwd = vim.fn.expand '~/odoo',
+        console = 'integratedTerminal',
+      })
+    end,
   },
   -- {
   --   'epwalsh/pomo.nvim',
@@ -981,6 +1050,7 @@ require('lazy').setup({
                 odoo = '~/neorg/it',
                 br = '~/neorg/br',
                 personal = '~/neorg/misc',
+                it_projects = '~/neorg/it/projects/',
               },
               default_workspace = 'main',
             },
